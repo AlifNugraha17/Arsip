@@ -8,7 +8,7 @@ from django.urls import include, path
 
 from .models import Dokumen, FormData
 
-
+# ini komen untuk first commit ye
 @login_required(login_url="/login/")
 def form_view(request):
     if request.method == 'POST':
