@@ -1,0 +1,93 @@
+<!-- templates/home/index.html -->
+{% extends 'layouts/base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Dashboard</h6>
+                </div>
+            </div>
+            <!-- Statistik Dokumen -->
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <div class="card-body">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total Dokumen</h5>
+                            <span class="h2 font-weight-bold mb-0">{{ total_dokumen }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <div class="card-body">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Dokumen Permanen</h5>
+                            <span class="h2 font-weight-bold mb-0">{{ dokumen_permanen }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <div class="card-body">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Non Permanen</h5>
+                            <span class="h2 font-weight-bold mb-0">{{ dokumen_non_permanen }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <div class="card-body">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Dokumen Expired</h5>
+                            <span class="h2 font-weight-bold mb-0">{{ dokumen_expired }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Info Arsip</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>NO</th>
+                                <th>Kode Input</th>
+                                <th>Jenis Dokumen</th>
+                                <th>Tahun Anggaran</th>
+                                <th>Judul Dokumen</th>
+                                <th>Status Dokumen</th>
+                                <th>Masa Dokumen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dokumen in dokumen_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ dokumen.kode_input }}</td>
+                                <td>{{ dokumen.jenis_dokumen }}</td>
+                                <td>{{ dokumen.tahun_anggaran|date:"Y" }}</td>
+                                <td>{{ dokumen.judul_dokumen }}</td>
+                                <td>{{ dokumen.status_dokumen }}</td>
+                                <td>{{ dokumen.masa_dokumen }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
