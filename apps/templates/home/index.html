@@ -3,6 +3,9 @@
 
 {% block title %}Dashboard{% endblock title %}
 
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
 {% block content %}
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
@@ -12,44 +15,84 @@
                     <h6 class="h2 text-white d-inline-block mb-0">Dashboard</h6>
                 </div>
             </div>
-            <!-- Statistik Dokumen -->
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <div class="card-body">
-                            <h5 class="card-title text-uppercase text-muted mb-0">Total Dokumen</h5>
-                            <span class="h2 font-weight-bold mb-0">{{ total_dokumen }}</span>
-                        </div>
+            <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Total Dokumen</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ total_dokumen }}</span>
                     </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <div class="card-body">
-                            <h5 class="card-title text-uppercase text-muted mb-0">Dokumen Permanen</h5>
-                            <span class="h2 font-weight-bold mb-0">{{ dokumen_permanen }}</span>
-                        </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                        <i class="ni ni-archive-2"></i>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <div class="card-body">
-                            <h5 class="card-title text-uppercase text-muted mb-0">Non Permanen</h5>
-                            <span class="h2 font-weight-bold mb-0">{{ dokumen_non_permanen }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <div class="card-body">
-                            <h5 class="card-title text-uppercase text-muted mb-0">Dokumen Expired</h5>
-                            <span class="h2 font-weight-bold mb-0">{{ dokumen_expired }}</span>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Dokumen Permanen</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ dokumen_permanen }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                        <i class="ni ni-book-bookmark"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0"> Non Permanen</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ dokumen_non_permanen }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-ungroup"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Dokumen Expired</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ dokumen_expired }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                        <i class="ni ni-folder-17"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
 <div class="container-fluid mt--6">
     <div class="row">
@@ -69,6 +112,7 @@
                                 <th>Judul Dokumen</th>
                                 <th>Status Dokumen</th>
                                 <th>Masa Dokumen</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,6 +125,18 @@
                                 <td>{{ dokumen.judul_dokumen }}</td>
                                 <td>{{ dokumen.status_dokumen }}</td>
                                 <td>{{ dokumen.masa_dokumen }}</td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                      </a>
+                                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                        <a class="dropdown-item" href="#">Buka</a>
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Hapus</a>
+                                      </div>
+                                    </div>
+                                  </td>
                             </tr>
                             {% endfor %}
                         </tbody>
