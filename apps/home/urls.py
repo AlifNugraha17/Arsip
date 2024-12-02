@@ -13,18 +13,16 @@ from . import views
 
 
 urlpatterns = [
-    # Halaman form
+
+    # The home page
+    path('', views.index, name='home'),
+    
     path('form/', views.form_view, name='form'),
-    path('form.html', views.form_view, name='form_html'),  # Alternatif URL untuk form.html
+    path('form.html', views.form_view, name='form_html'),
 
-    # Halaman profile
-    path('profile/', views.profile_view, name='profile'),
-    path('profile.html', views.profile_view, name='profile_html'),  # Alternatif URL untuk profile.html
+    # Matches any html file
+    re_path(r'^.*\.*', views.pages, name='pages'),
 
-    # Halaman index
-    path('', views.index, name='index'),
-
-    # Halaman dinamis (untuk menangani halaman selain yang sudah ditentukan di atas)
-    re_path(r'^(?P<page_name>[a-zA-Z0-9_-]+)/?$', views.pages, name='pages'),
 ]
+
 
