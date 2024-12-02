@@ -3388,10 +3388,10 @@ input[type="button"].btn-block {
 
 .navbar-brand {
   display: inline-block;
-  padding-top: 0.0625rem;
-  padding-bottom: 0.0625rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   margin-right: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   line-height: inherit;
   white-space: nowrap; }
   .navbar-brand:hover, .navbar-brand:focus {
@@ -12318,13 +12318,14 @@ textarea[resize="horizontal"] {
     margin-left: .25rem; }
 
 .navbar-horizontal .navbar-brand {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
   font-size: .875rem;
   letter-spacing: .05px; }
   .navbar-horizontal .navbar-brand img {
-    height: 30px; }
+    height: 150px;
+    width: auto; }
 
 .navbar-horizontal .navbar-dark .navbar-brand {
   color: #fff; }
