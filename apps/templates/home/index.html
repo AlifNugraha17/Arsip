@@ -112,7 +112,8 @@
                                 <th>Judul Dokumen</th>
                                 <th>Status Dokumen</th>
                                 <th>Masa Dokumen</th>
-                                <th></th>
+                                <th>Tanggal dibuat</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,6 +126,7 @@
                                 <td>{{ dokumen.judul_dokumen }}</td>
                                 <td>{{ dokumen.status_dokumen }}</td>
                                 <td>{{ dokumen.masa_dokumen }}</td>
+                                <td>{{ dokumen.created_at|date:"d-m-Y H:i:s" }}</td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                       <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

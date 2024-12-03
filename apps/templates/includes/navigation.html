@@ -114,10 +114,13 @@
               <span>My profile</span>
             </a>
             <div class="dropdown-divider"></div>
-            <a href="{% url 'logout' %}" class="dropdown-item">
-              <i class="ni ni-user-run text-red"></i>
-              <span>Logout</span>
-            </a>
+            <form method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="dropdown-item">
+                  <i class="ni ni-user-run text-red"></i>
+                  Logout
+              </button>
+            </form>    
           </div>
         </li>
       </ul>
