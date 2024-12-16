@@ -18,7 +18,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     
     path('form/', views.form_view, name='form'),
-    path('form.html', views.form_view, name='form_html'),
+    # path('form.html', views.form_view, name='form_html'),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

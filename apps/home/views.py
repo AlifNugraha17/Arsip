@@ -7,7 +7,7 @@ from django.template import loader
 from django.template.exceptions import TemplateDoesNotExist
 from django.urls import include, path, reverse
 
-from .models import Dokumen, FormData
+from .models import Dokumen
 
 
 @login_required(login_url="/login/")
@@ -22,26 +22,26 @@ def form_view(request):
             status_dokumen=request.POST['status_dokumen']
         )
         
-        FormData.objects.create(
-            kode_input=request.POST['kode_input'],
-            jenis_dokumen=request.POST['jenis_dokumen'],
-            tahun_anggaran=request.POST['tahun_anggaran'],
-            judul_dokumen=request.POST['judul_dokumen'],
-            status_dokumen=request.POST['status_dokumen']
-        )
-        return redirect('index')
+        # FormData.objects.create(
+        #     kode_input=request.POST['kode_input'],
+        #     jenis_dokumen=request.POST['jenis_dokumen'],
+        #     tahun_anggaran=request.POST['tahun_anggaran'],
+        #     judul_dokumen=request.POST['judul_dokumen'],
+        #     status_dokumen=request.POST['status_dokumen']
+        # )
+        return redirect('pages')
     return render(request, "home/form.html")
 
 @login_required(login_url="/login/")
 def index(request):
     # Mengambil data dari Dokumen dan FormData
     dokumen_list = Dokumen.objects.all().order_by('-created_at')
-    form_data = FormData.objects.all().order_by('-created_at')
+    # form_data = FormData.objects.all().order_by('-created_at')
     
     # Membuat context yang menggabungkan kedua fungsi
     context = {
         'dokumen_list': dokumen_list,
-        'form_data': form_data,
+        # 'form_data': form_data,
         'segment': 'index'
     }
     
