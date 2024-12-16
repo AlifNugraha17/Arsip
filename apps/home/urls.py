@@ -8,13 +8,14 @@ from django.urls import path, re_path
 from apps.home import views
 
 from . import views
+from .views import form_view
 
 
 urlpatterns = [
 
     # The home page
     path('', views.index, name='home'),
-    
+
     path('form/', views.form_view, name='form'),
     path('form.html', views.form_view, name='form_html'),
     path('users/', views.user_list, name='user_list'),
@@ -24,5 +25,3 @@ urlpatterns = [
     re_path(r'^.*\.*', views.pages, name='pages'),
 
 ]
-
-

@@ -112,6 +112,7 @@
                               <th style="max-width: 150px;">Judul Dokumen</th>
                               <th>Status Dokumen</th>
                               <th>Masa Dokumen</th>
+                              <th>FILE</th>
                               <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -125,6 +126,13 @@
                                 <td style="max-width: 150px; padding: 8px; text-align: left; white-space: normal; word-wrap: break-word;">{{ dokumen.judul_dokumen }}</td>
                                 <td class="text-wrap">{{ dokumen.status_dokumen }}</td>
                                 <td class="text-wrap">{{ dokumen.masa_dokumen }}</td>
+                                <td>
+                                  {% if dokumen.file %}
+                                      <a href="{{ dokumen.file.url }}" target="_blank">{{ dokumen.file.name }}</a>
+                                  {% else %}
+                                      No File
+                                  {% endif %}
+                              </td>
                                 <td class="text-center">
                                   <div class="d-flex justify-content-end gap-1"></div>
                                       <!-- Tombol Detail -->
