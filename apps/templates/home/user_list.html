@@ -1,0 +1,104 @@
+<!-- templates/home/index.html -->
+{% extends 'layouts/base.html' %}
+
+{% block title %}Daftar Akun Anggota{% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Daftar Akun Anggota</h6>
+                </div>
+            </div>
+            <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0"> Total Akun Anggota</h5>
+                      <span class="h2 font-weight-bold mb-0">{{total_user}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                        <i class="ni ni-ungroup"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Tabel Daftar Akun Anggota</h3>
+                </div>
+                <div class="table-responsive container-fluid">
+                    <table class="table align-items-center table-flush" id="tabelAkunAnggota">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>NO</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Status Akun</th>
+                                <th>Tanggal Dibuat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in user_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    {% if user.is_active %}
+                                        <span class="badge badge-success">Aktif</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Tidak Aktif</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.date_joined|date:"d-m-Y H:i:s" }}</td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                      </a>
+                                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                        <a class="dropdown-item" href="#">Buka</a>
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Hapus</a>
+                                      </div>
+                                    </div>
+                                  </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--JS dataTables-->
+<script>
+  $(document).ready(function() {
+      $('#tabelAkunAnggota').DataTable();
+  });
+</script>
+{% endblock content %}
