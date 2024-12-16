@@ -112,6 +112,7 @@
                                 <th>Judul Dokumen</th>
                                 <th>Status Dokumen</th>
                                 <th>Masa Dokumen</th>
+                                <th>FILE</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -125,6 +126,13 @@
                                 <td>{{ dokumen.judul_dokumen }}</td>
                                 <td>{{ dokumen.status_dokumen }}</td>
                                 <td>{{ dokumen.masa_dokumen }}</td>
+                                <td>
+                                    {% if dokumen.file %}
+                                        <a href="{{ dokumen.file.url }}" target="_blank">{{ dokumen.file.name }}</a>
+                                    {% else %}
+                                        No File
+                                    {% endif %}
+                                </td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                       <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

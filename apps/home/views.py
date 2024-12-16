@@ -1,5 +1,5 @@
 from django import template
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -13,42 +13,43 @@ from .models import Dokumen, FormData
 @login_required(login_url="/login/")
 def form_view(request):
     if request.method == 'POST':
-        # Simpan ke kedua model
-        dokumen = Dokumen.objects.create(
-            kode_input=request.POST['kode_input'],
-            jenis_dokumen=request.POST['jenis_dokumen'],
-            tahun_anggaran=request.POST['tahun_anggaran'],
-            judul_dokumen=request.POST['judul_dokumen'],
-            status_dokumen=request.POST['status_dokumen']
-        )
-        
-        FormData.objects.create(
-            kode_input=request.POST['kode_input'],
-            jenis_dokumen=request.POST['jenis_dokumen'],
-            tahun_anggaran=request.POST['tahun_anggaran'],
-            judul_dokumen=request.POST['judul_dokumen'],
-            status_dokumen=request.POST['status_dokumen']
-        )
-        return redirect('index')
-    return render(request, "home/form.html")
+        try:
+            # Ambil data dari form
+            kode_input = request.POST.get('kode_input')
+            jenis_dokumen = request.POST.get('jenis_dokumen')
+            tahun_anggaran = request.POST.get('tahun_anggaran')
+            judul_dokumen = request.POST.get('judul_dokumen')
+            status_dokumen = request.POST.get('status_dokumen')
+            file = request.FILES.get('file')
+
+            # Buat objek Dokumen baru
+            dokumen = Dokumen(
+                kode_input=kode_input,
+                jenis_dokumen=jenis_dokumen,
+                tahun_anggaran=tahun_anggaran,
+                judul_dokumen=judul_dokumen,
+                status_dokumen=status_dokumen,
+                file=file
+            )
+
+            # Simpan ke database
+            dokumen.save()
+
+            messages.success(request, 'Data berhasil disimpan!')
+            # Redirect ke halaman index setelah berhasil
+            return redirect('home')
+
+        except Exception as e:
+            return render(request, 'home/form.html', {'error': str(e)})
+
+    return render(request, 'home/form.html')
+
 
 @login_required(login_url="/login/")
 def index(request):
-    # Mengambil data dari Dokumen dan FormData
-    dokumen_list = Dokumen.objects.all().order_by('-created_at')
-    form_data = FormData.objects.all().order_by('-created_at')
-    
-    # Membuat context yang menggabungkan kedua fungsi
-    context = {
-        'dokumen_list': dokumen_list,
-        'form_data': form_data,
-        'segment': 'index'
-    }
-    
-    # Menggunakan template loader
-    html_template = loader.get_template('home/index.html')
-    return HttpResponse(html_template.render(context, request))
-
+    # Retrieve all documents from the database
+    dokumen_list = Dokumen.objects.all()
+    return render(request, 'home/index.html', {'dokumen_list': dokumen_list})
 
 
 @login_required(login_url="/login/")
@@ -75,5 +76,3 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
-
-

@@ -24,7 +24,7 @@
       <div class="card shadow">
         <div class="card-body">
           <h2 class="mb-4">Form Pengisian Data</h2>
-          <form action="{% url 'form' %}" method="post">
+          <form action="{% url 'form' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="form-group">
@@ -43,6 +43,8 @@
                 <option value="">Pilih Jenis Dokumen</option>
                 <option value="LKPD">LKPD</option>
                 <option value="BAST">BAST</option>
+                <option value="KERUDA">KERUDA</option>
+                <option value="KINERJA">KINERJA</option>
                 <option value="PDTT/BELANJA">PDTT/BELANJA</option>
               </select>
             </div>
@@ -63,10 +65,15 @@
                 <option value="">Pilih Status Dokumen</option>
                 <option value="permanen">Permanen</option>
                 <option value="non_permanen">Non Permanen</option>
-                <option value="revisi">Revisi</option>
               </select>
             </div>
 
+            <div class="form-group">
+              <label for="file">Unggah Dokumen:</label>
+              <input type="file" id="file" name="file" class="form-control" accept=".pdf" required>
+              <small class="form-text text-muted">File harus berupa PDF, ukuran maksimal 5MB.</small>
+            </div>
+          
             <button type="submit" class="btn btn-primary">Kirim</button>
           </form>
         </div>
