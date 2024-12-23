@@ -1,14 +1,16 @@
 from django import template
 from django.contrib import admin, messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db import models
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.template.exceptions import TemplateDoesNotExist
 from django.urls import include, path, reverse
-from django.contrib.auth.models import User
 
 from .models import Dokumen
+
 
 @login_required(login_url="/login/")
 def form_view(request):
@@ -47,9 +49,36 @@ def form_view(request):
 
 @login_required(login_url="/login/")
 def index(request):
-    # Retrieve all documents from the database
     dokumen_list = Dokumen.objects.all()
-    return render(request, 'home/index.html', {'dokumen_list': dokumen_list})
+    
+    # Calculate statistics
+    total_dokumen = dokumen_list.count()
+    dokumen_permanen = dokumen_list.filter(status_dokumen='Permanen').count()
+    dokumen_non_permanen = dokumen_list.filter(
+        models.Q(status_dokumen='Non_Permanen') |
+        models.Q(status_dokumen='Non Permanen')
+    ).count()
+    dokumen_expired = sum(1 for doc in dokumen_list if doc.get_masa_dokumen() == "Expired")
+    
+    context = {
+        'dokumen_list': dokumen_list,
+        'total_dokumen': total_dokumen,
+        'dokumen_permanen': dokumen_permanen,
+        'dokumen_non_permanen': dokumen_non_permanen,
+        'dokumen_expired': dokumen_expired,
+    }
+    return render(request, 'home/index.html', context)
+
+@login_required(login_url="/login/")
+def user_list(request):
+    users = User.objects.filter(is_superuser=False).order_by('-date_joined')
+    total_users = users.count()
+    context = {
+        'segment': 'users',
+        'user_list': users,
+        'total_user':total_users
+    }
+    return render(request, 'home/user_list.html', context)
 
 
 @login_required(login_url="/login/")

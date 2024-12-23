@@ -1,4 +1,6 @@
+from dateutil.relativedelta import relativedelta
 from django.db import models
+from django.utils import timezone
 
 
 class Dokumen(models.Model):
@@ -19,6 +21,21 @@ class Dokumen(models.Model):
     def __str__(self):
         return f"{self.kode_input} - {self.judul_dokumen}"
 
+    def get_masa_dokumen(self):
+        if not self.tahun_anggaran:
+            return "Tidak ada tanggal"
+        
+        # Calculate expiration date (10 years from tahun_anggaran)
+        expiration_date = self.tahun_anggaran + relativedelta(years=10)
+        today = timezone.now().date()
+        
+        if today > expiration_date:
+            return "Expired"
+        else:
+            # Calculate remaining years and months
+            diff = relativedelta(expiration_date, today)
+            return f"{diff.years} tahun {diff.months} bulan tersisa"
+
 
 class FormData(models.Model):
     kode_input = models.CharField(max_length=4)
@@ -37,14 +54,3 @@ class FormData(models.Model):
     def __str__(self):
         return f"{self.kode_input} - {self.judul_dokumen}"
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'your_database_name',
-        'USER': 'your_database_user',
-        'PASSWORD': 'your_database_password',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
