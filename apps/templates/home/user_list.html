@@ -1,44 +1,62 @@
 <!-- templates/home/index.html -->
 {% extends 'layouts/base.html' %}
 
-{% block title %}Daftar Akun Anggota{% endblock title %}
-
+{%block title %}Daftar Akun Anggota{% endblock title %}
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
-        <div class="header-body">
-            <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">Daftar Akun Anggota</h6>
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Daftar Akun Anggota</h6>
+          </div>
+        </div>
+        <!-- Card stats -->
+         <div class="row">
+          <div class="col-xl-3 col-md-6">
+           <div class="card card-stats">
+            <!-- Card body -->
+             <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0"> Total Akun Anggota</h5>
+                  <span class="h2 font-weight-bold mb-0">{{total_user}}</span>
                 </div>
-            </div>
-            <!-- Card stats -->
-          <div class="row">
-            <div class="col-xl-3 col-md-6">
-              <div class="card card-stats">
-                <!-- Card body -->
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0"> Total Akun Anggota</h5>
-                      <span class="h2 font-weight-bold mb-0">{{total_user}}</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                        <i class="ni ni-ungroup"></i>
-                      </div>
-                    </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                    <i class="ni ni-ungroup"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+             <a href="{% url 'add_user' %}" class="text-decoration-none">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <span class="text-sm">Klik untuk menambah akun baru</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                      <i class="ni ni-fat-add"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+</div>
 
 <div class="container-fluid mt--6">
     <div class="row">
@@ -47,6 +65,21 @@
                 <div class="card-header border-0">
                     <h3 class="mb-0">Tabel Daftar Akun Anggota</h3>
                 </div>
+                 <!-- Tambahkan bagian notifikasi di sini -->
+                  {% if messages %}
+                  <div class="container-fluid px-4">
+                      {% for message in messages %}
+                      <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                          <div class="d-flex align-items-center">
+                              <span>{{ message }}</span>
+                          </div>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
                 <div class="table-responsive container-fluid">
                     <table class="table align-items-center table-flush" id="tabelAkunAnggota">
                         <thead class="thead-light">
@@ -73,18 +106,24 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ user.date_joined|date:"d-m-Y H:i:s" }}</td>
-                                <td class="text-right">
-                                    <div class="dropdown">
-                                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
+                                <td class="text-center">
+                                  <div class="d-flex gap-1">
+                                      <!-- Tombol Change Password -->
+                                      <a href="{% url 'change_password' user.id %}" class="btn btn-sm btn-success" title="Ubah Password"
+                                         onclick="return confirm('Apakah Anda yakin ingin mengubah password untuk akun {{ user.username }}?')">
+                                          <i class="fas fa-key"></i>
                                       </a>
-                                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="#">Buka</a>
-                                        <a class="dropdown-item" href="#">Edit</a>
-                                        <a class="dropdown-item" href="#">Hapus</a>
-                                      </div>
-                                    </div>
-                                  </td>
+                              
+                                      <!-- Tombol Hapus Akun -->
+                                      <form action="{% url 'delete_user' user.id %}" method="post" class="d-inline" 
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun {{ user.username }}?')">
+                                          {% csrf_token %}
+                                          <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                              <i class="fas fa-trash"></i>
+                                          </button>
+                                      </form>
+                                  </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
