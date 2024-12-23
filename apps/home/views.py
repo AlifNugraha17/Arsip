@@ -125,7 +125,7 @@ def change_password(request, user_id):
         if new_password == confirm_password:
             user.password = make_password(new_password)
             user.save()
-            messages.success(request, 'Password berhasil diubah!')
+            messages.success(request, f'Password untuk akun { user.username } berhasil diubah.')
             return redirect('user_list')
         else:
             messages.error(request, 'Password tidak cocok!')
@@ -137,6 +137,6 @@ def delete_user(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(User, id=user_id)
         user.delete()
-        messages.success(request, 'Akun berhasil dihapus!')
+        messages.success(request, f'Akun "{ user.username }" berhasil dihapus.')
         return redirect('user_list')
     return redirect('user_list')

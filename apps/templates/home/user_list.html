@@ -1,8 +1,8 @@
 <!-- templates/home/index.html -->
 {% extends 'layouts/base.html' %}
 
-{% block title %}Daftar Akun Anggota{% endblock title %}
-<!-- SpecificSS goes HERE -->
+{%block title %}Daftar Akun Anggota{% endblock title %}
+<!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
@@ -67,14 +67,22 @@
                 </div>
                  <!-- Tambahkan bagian notifikasi di sini -->
                   {% if messages %}
-                  {% for message in messages %}
+                  <div class="container-fluid px-4">
+                      {% for message in messages %}
                       <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                          {{ message }}
+                          <div class="d-flex align-items-center">
+                              <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% endif %} me-2"></i>
+                              <strong class="me-2">
+                                  {% if message.tags == 'success' %}Berhasil!{% elif message.tags == 'error' %}Gagal!{% endif %}
+                              </strong>
+                              <h1>{{ message }}</h1>
+                          </div>
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                           </button>
                       </div>
-                  {% endfor %}
+                      {% endfor %}
+                  </div>
                   {% endif %}
                 <div class="table-responsive container-fluid">
                     <table class="table align-items-center table-flush" id="tabelAkunAnggota">
@@ -105,12 +113,14 @@
                                 <td class="text-center">
                                   <div class="d-flex gap-1">
                                       <!-- Tombol Change Password -->
-                                      <a href="{% url 'change_password' user.id %}" class="btn btn-sm btn-success" title="Ubah Password">
+                                      <a href="{% url 'change_password' user.id %}" class="btn btn-sm btn-success" title="Ubah Password"
+                                         onclick="return confirm('Apakah Anda yakin ingin mengubah password untuk akun {{ user.username }}?')">
                                           <i class="fas fa-key"></i>
                                       </a>
                               
                                       <!-- Tombol Hapus Akun -->
-                                      <form action="{% url 'delete_user' user.id %}" method="post" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?')">
+                                      <form action="{% url 'delete_user' user.id %}" method="post" class="d-inline" 
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun {{ user.username }}?')">
                                           {% csrf_token %}
                                           <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
                                               <i class="fas fa-trash"></i>
