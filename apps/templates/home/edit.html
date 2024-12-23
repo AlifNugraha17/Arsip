@@ -1,0 +1,67 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Edit Dokumen{% endblock title %}
+
+{% block content %}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Edit Dokumen</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Edit Data Dokumen</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Kode Input</label>
+                            <input type="text" class="form-control" name="kode_input" value="{{ dokumen.kode_input }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Dokumen</label>
+                            <input type="text" class="form-control" name="jenis_dokumen" value="{{ dokumen.jenis_dokumen }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Anggaran</label>
+                            <input type="date" class="form-control" name="tahun_anggaran" value="{{ dokumen.tahun_anggaran|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Judul Dokumen</label>
+                            <input type="text" class="form-control" name="judul_dokumen" value="{{ dokumen.judul_dokumen }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Status Dokumen</label>
+                            <select class="form-control" name="status_dokumen" required>
+                                <option value="Permanen" {% if dokumen.status_dokumen == 'Permanen' %}selected{% endif %}>Permanen</option>
+                                <option value="Non Permanen" {% if dokumen.status_dokumen == 'Non Permanen' %}selected{% endif %}>Non Permanen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>File</label>
+                            {% if dokumen.file %}
+                                <p>File saat ini: {{ dokumen.file.name }}</p>
+                            {% endif %}
+                            <input type="file" class="form-control" name="file">
+                            <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengubah file</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Batal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} 

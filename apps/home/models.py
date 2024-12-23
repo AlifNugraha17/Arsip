@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class Dokumen(models.Model):
-    kode_input = models.CharField(max_length=4)
+    kode_input = models.CharField(max_length=25)
     jenis_dokumen = models.CharField(max_length=50)
     tahun_anggaran = models.DateField()
     judul_dokumen = models.CharField(max_length=255)
