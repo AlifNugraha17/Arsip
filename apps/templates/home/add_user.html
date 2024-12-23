@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Tambah Akun Anggota{% endblock title %}
+
+{% block content %}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Tambah Akun Anggota</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Form Tambah Akun</h3>
+                </div>
+                <div class="card-body">
+                    {% if msg %}
+                        <div class="alert alert-{% if success %}success{% else %}danger{% endif %}" role="alert">
+                            {{ msg | safe }}
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label class="form-control-label">Username</label>
+                            {{ form.username }}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-control-label">Email</label>
+                            {{ form.email }}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-control-label">Password</label>
+                            {{ form.password1 }}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-control-label">Konfirmasi Password</label>
+                            {{ form.password2 }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} 

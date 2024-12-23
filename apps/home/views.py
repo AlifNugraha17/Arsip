@@ -9,6 +9,7 @@ from django.urls import include, path, reverse
 from django.contrib.auth.models import User
 
 from .models import Dokumen
+from .forms import UserAddForm
 
 @login_required(login_url="/login/")
 def form_view(request):
@@ -88,3 +89,27 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def add_user(request):
+    msg = None
+    success = False
+    
+    if request.method == "POST":
+        form = UserAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            msg = 'Pengguna berhasil dibuat!'
+            success = True
+            return redirect('user_list')
+        else:
+            msg = 'Form tidak valid'
+    else:
+        form = UserAddForm()
+    
+    return render(request, "home/add_user.html", {
+        "form": form,
+        "msg": msg,
+        "success": success
+    })
