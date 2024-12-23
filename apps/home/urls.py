@@ -20,6 +20,8 @@ urlpatterns = [
     path('form.html', views.form_view, name='form_html'),
     path('users/', views.user_list, name='user_list'),
     path('users/add/', views.add_user, name='add_user'),
+    path('users/change-password/<int:user_id>/', views.change_password, name='change_password'),
+    path('users/delete/<int:user_id>/', views.delete_user, name='delete_user'),
     
 
     # Matches any html file

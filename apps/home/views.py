@@ -2,11 +2,12 @@ from django import template
 from django.contrib import admin, messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template import loader
 from django.template.exceptions import TemplateDoesNotExist
 from django.urls import include, path, reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 from .models import Dokumen
 from .forms import UserAddForm
@@ -113,3 +114,29 @@ def add_user(request):
         "msg": msg,
         "success": success
     })
+
+@login_required(login_url="/login/")
+def change_password(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        if new_password == confirm_password:
+            user.password = make_password(new_password)
+            user.save()
+            messages.success(request, 'Password berhasil diubah!')
+            return redirect('user_list')
+        else:
+            messages.error(request, 'Password tidak cocok!')
+    
+    return render(request, 'home/change_password.html', {'selected_user': user})
+
+@login_required(login_url="/login/")
+def delete_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        user.delete()
+        messages.success(request, 'Akun berhasil dihapus!')
+        return redirect('user_list')
+    return redirect('user_list')
