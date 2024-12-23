@@ -1,4 +1,6 @@
+from dateutil.relativedelta import relativedelta
 from django.db import models
+from django.utils import timezone
 
 
 class Dokumen(models.Model):
@@ -29,3 +31,18 @@ class Dokumen(models.Model):
 #         'PORT': '3306',
 #     }
 # }
+    def get_masa_dokumen(self):
+        if not self.tahun_anggaran:
+            return "Tidak ada tanggal"
+        
+        # Calculate expiration date (10 years from tahun_anggaran)
+        expiration_date = self.tahun_anggaran + relativedelta(years=10)
+        today = timezone.now().date()
+        
+        if today > expiration_date:
+            return "Expired"
+        else:
+            # Calculate remaining years and months
+            diff = relativedelta(expiration_date, today)
+            return f"{diff.years} tahun {diff.months} bulan tersisa"
+        

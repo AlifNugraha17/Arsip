@@ -125,7 +125,13 @@
                                 <td class="text-center">{{ dokumen.tahun_anggaran|date:"Y" }}</td>
                                 <td style="max-width: 150px; padding: 8px; text-align: left; white-space: normal; word-wrap: break-word;">{{ dokumen.judul_dokumen }}</td>
                                 <td class="text-wrap">{{ dokumen.status_dokumen }}</td>
-                                <td class="text-wrap">{{ dokumen.masa_dokumen }}</td>
+                                <td class="text-wrap">
+                                    {% if dokumen.get_masa_dokumen == "Expired" %}
+                                        <span class="badge badge-danger">{{ dokumen.get_masa_dokumen }}</span>
+                                    {% else %}
+                                        <span class="badge badge-success">{{ dokumen.get_masa_dokumen }}</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                   {% if dokumen.file %}
                                       <a href="{{ dokumen.file.url }}" target="_blank">{{ dokumen.file.name }}</a>
