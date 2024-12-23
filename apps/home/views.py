@@ -51,6 +51,17 @@ def index(request):
     dokumen_list = Dokumen.objects.all()
     return render(request, 'home/index.html', {'dokumen_list': dokumen_list})
 
+@login_required(login_url="/login/")
+def user_list(request):
+    users = User.objects.filter(is_superuser=False).order_by('-date_joined')
+    total_users = users.count()
+    context = {
+        'segment': 'users',
+        'user_list': users,
+        'total_user':total_users
+    }
+    return render(request, 'home/user_list.html', context)
+
 
 @login_required(login_url="/login/")
 def pages(request):
